@@ -1,0 +1,5 @@
+httpx==0.28.1
+playwright==1.60.0
+pytest==9.0.3
+pytest-repeat==0.9.4
+requests==2.34.2
