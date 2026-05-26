@@ -1,21 +1,27 @@
-name: Tests
+name: Run Pytest
 
 on:
   push:
   pull_request:
 
 jobs:
-  docker-tests:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Build test image
-        run: docker build -t qa-response-classifier .
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-      - name: Run unit tests in Docker
-        run: docker run --rm qa-response-classifier
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - name: Run integration tests in Docker
-        run: docker run --rm qa-response-classifier pytest -m integration
+      - name: Install Playwright browsers
+        run: playwright install --with-deps
+
+      - name: Run tests
+        run: pytest -v
